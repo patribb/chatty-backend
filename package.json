@@ -4,7 +4,9 @@
   "description": "API for Chatty App",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon -r tsconfig-paths/register src/app.ts | bunyan"
+    "start": "node ./build/app.js",
+    "dev": "nodemon -r tsconfig-paths/register src/app.ts | bunyan",
+    "build": "ttsc -p ."
   },
   "keywords": [],
   "author": "Patricia Garcia",
@@ -33,6 +35,8 @@
     "@types/cors": "^2.8.13",
     "@types/hpp": "^0.2.2",
     "@types/node": "^18.11.18",
-    "tsconfig-paths": "^4.1.2"
+    "tsconfig-paths": "^4.1.2",
+    "ttypescript": "^1.5.15",
+    "typescript-transform-paths": "^3.4.4"
   }
 }

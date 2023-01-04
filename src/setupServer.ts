@@ -11,16 +11,17 @@ import {createClient} from 'redis'
 import {createAdapter} from '@socket.io/redis-adapter'
 import Logger from 'bunyan'
 import 'express-async-error'
-import { config } from './config'
-import applicationRoutes from './routes'
-import { CustomError, IErrorResponse } from './shared/global/helpers/error-handler'
+import applicationRoutes from '@root/routes'
+import { config } from '@root/config'
+import { CustomError, IErrorResponse } from '@global/helpers/error-handler'
+
 
 const SERVER_PORT = 5000
 const log: Logger = config.createLogger('server');
 
 export class ChattyServer {
   private app: Application;
-  
+
   constructor(app: Application) {
     this.app = app;
   }
@@ -43,9 +44,9 @@ export class ChattyServer {
     app.use(hpp())
     app.use(helmet())
     app.use(cors({
-      origin: config.CLIENT_URL, 
-      credentials:true, 
-      optionsSuccessStatus: 200, 
+      origin: config.CLIENT_URL,
+      credentials:true,
+      optionsSuccessStatus: 200,
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']}
     ))
   }
@@ -91,7 +92,7 @@ export class ChattyServer {
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
       }
     })
-    
+
     const pubClient = createClient({url: config.REDIS_HOST})
     const subClient = pubClient.duplicate();
     await Promise.all([pubClient.connect(), subClient.connect()])
@@ -106,6 +107,8 @@ export class ChattyServer {
     })
   }
 
-  private socketIOConnections(io: Server): void {}
-    
+  private socketIOConnections(io: Server): void {
+    log.info('SocketIO Connection')
+  }
+
 }
