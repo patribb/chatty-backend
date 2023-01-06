@@ -108,7 +108,7 @@ export class ChattyServer {
   }
 
   private socketIOConnections(io: Server): void {
-    log.info('SocketIO Connection')
+    log.info('👾 SocketIO Connection')
   }
 
 }
