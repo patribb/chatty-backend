@@ -10,17 +10,18 @@ import { IAuthDocument } from '@auth/interfaces/auth.interface'
 import { IUserDocument } from '@user/interfaces/user.interface'
 import { userService } from '@service/db/user.service'
 
+
 export class SignIn {
   @joiValidation(loginSchema)
   public async read(req: Request, res: Response): Promise<void> {
     const {username, password} = req.body;
     const existingUser: IAuthDocument = await authService.getAuthUserByUsername(username)
     if(!existingUser) {
-      throw new BadRequestError('Invalid credentials.')
+      throw new BadRequestError('Invalid credentials')
     }
     const passwordsMatch: boolean = await existingUser.comparePassword(password)
     if(!passwordsMatch) {
-      throw new BadRequestError('Invalid credentials.')
+      throw new BadRequestError('Invalid credentials')
     }
 
     const user: IUserDocument = await userService.getUserByAuthId(`${existingUser._id}`)
@@ -32,7 +33,9 @@ export class SignIn {
       username: existingUser.username,
       avatarColor: existingUser.avatarColor
     }, config.JWT_TOKEN!)
+
     req.session = {jwt: userJwt}
+
     const userDocument: IUserDocument = {
       ...user,
       authId: existingUser!._id,
