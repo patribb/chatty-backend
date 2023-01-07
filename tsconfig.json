@@ -1,28 +1,27 @@
 {
   "compilerOptions": {
     "target": "es2016",
-    "lib": ["DOM", "ES2016"],
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "module": "commonjs",
-    "rootDir": "src",
-    "moduleResolution": "node",
+    "lib": ["DOM", "ES2016"],
     "baseUrl": ".",
-    "resolveJsonModule": true,
-    "sourceMap": true,
     "outDir": "./build",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "rootDir": ".",
     "strict": true,
     "noImplicitAny": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
     "pretty": true,
+    "resolveJsonModule": true,
     "plugins": [
       { "transform": "typescript-transform-paths" },
-      { "transform": "typescript-transform-paths", "afterDeclarations": true }
+      { "transform": "typescript-transform-paths", "afterDeclarations": true },
     ],
     "paths": {
       "@auth/*": ["src/features/auth/*"],
@@ -36,8 +35,8 @@
       "@chat/*": ["src/features/chat/*"],
       "@global/*": ["src/shared/global/*"],
       "@service/*": ["src/shared/services/*"],
-      "@sockets/*": ["src/shared/sockets/*"],
-      "@workers/*": ["src/shared/workers/*"],
+      "@socket/*": ["src/shared/sockets/*"],
+      "@worker/*": ["src/shared/workers/*"],
       "@root/*": ["src/*"]
     }
   }
