@@ -91,4 +91,3 @@ export const signUpMockData = {
   notifications: {messages: true, reactions: true, comments: true, follows: true},
   profilePicture: 'https://res.cloudinary.com/ratingapp/image/upload/605727cd646eb50e668a4e13'
 }
-
