@@ -25,7 +25,8 @@ export class Helpers {
     try {
       JSON.parse(prop);
     } catch (error) {
-      return prop
+      return prop;
     }
+    return JSON.parse(prop);
   }
 }
