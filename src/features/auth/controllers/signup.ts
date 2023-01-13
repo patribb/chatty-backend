@@ -1,20 +1,20 @@
 import { ObjectId } from 'mongodb';
 import { Request, Response } from 'express';
-import JWT from 'jsonwebtoken';
-import { UploadApiResponse } from 'cloudinary';
-import HTTP_STATUS from 'http-status-codes';
 import { joiValidation } from '@global/decorators/joi-validation.decorators';
 import { signupSchema } from '@auth/schemes/signup';
 import { IAuthDocument, ISignUpData } from '@auth/interfaces/auth.interface';
 import { authService } from '@service/db/auth.service';
 import { Helpers } from '@global/helpers/helpers';
+import { UploadApiResponse } from 'cloudinary';
 import { uploads } from '@global/helpers/cloudinary-upload';
+import HTTP_STATUS from 'http-status-codes';
 import { IUserDocument } from '@user/interfaces/user.interface';
 import { UserCache } from '@service/redis/user.cache';
+import JWT from 'jsonwebtoken';
 import { authQueue } from '@service/queues/auth.queue';
+import { userQueue } from '@service/queues/user.queue';
 import { config } from '@root/config';
 import { BadRequestError } from '@global/helpers/error-handler';
-import { userQueue } from '@service/queues/user.queue';
 
 const userCache: UserCache = new UserCache();
 
@@ -30,9 +30,9 @@ export class SignUp {
     const authObjectId: ObjectId = new ObjectId();
     const userObjectId: ObjectId = new ObjectId();
     const uId = `${Helpers.generateRandomIntegers(12)}`;
-    /*NOTE: the reason we are using SignUp.prototype.signupData and not this.signupData is because
+    // the reason we are using SignUp.prototype.signupData and not this.signupData is because
     // of how we invoke the create method in the routes method.
-     the scope of the this object is not kept when the method is invoked */
+    // the scope of the this object is not kept when the method is invoked
     const authData: IAuthDocument = SignUp.prototype.signupData({
       _id: authObjectId,
       uId,
@@ -46,12 +46,12 @@ export class SignUp {
       throw new BadRequestError('File upload: Error occurred. Try again.');
     }
 
-    //NOTE: Add to redis cache
+    // Add to redis cache
     const userDataForCache: IUserDocument = SignUp.prototype.userData(authData, userObjectId);
     userDataForCache.profilePicture = `https://res.cloudinary.com/patribbb/image/upload/v${result.version}/${userObjectId}`;
     await userCache.saveUserToCache(`${userObjectId}`, uId, userDataForCache);
 
-    //NOTE: Add to database
+    // Add to database
     authQueue.addAuthUserJob('addAuthUserToDB', { value: authData });
     userQueue.addUserJob('addUserToDB', { value: userDataForCache });
 
